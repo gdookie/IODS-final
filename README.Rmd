@@ -1,0 +1,52 @@
+---
+title: "READ ME"
+author: "Gyan Dookie"
+date: "24 January 2017"
+output: html_document
+---
+
+[Check out my GitHub Diary](https://gdookie.github.io/IODS-final/)
+
+Open Data Science - Final assignment repository
+===
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The way of learning
+I like the way we are learning data science in the course
+
+* Excellent combinations of learning spaces and materials on the net
+    + 24/7 availability
+    + text, graphs, videos
+    + Moodle Rooms MOOC
+    + Datacamp
+    + GitHub
+    
+* Open and relaxed athmosphere in the classes
+
+## The subjects we are learning
+I'm very exited about all the subjects we are learning. Many of my current interests are included.
+
+* Programming
+* Statistics
+* Latest web technologies
+* Social sciences
+
+<!--This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
