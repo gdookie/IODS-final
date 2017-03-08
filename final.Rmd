@@ -26,23 +26,25 @@ human <- read.table ("http://s3.amazonaws.com/assets.datacamp.com/production/cou
 ```
 
 #Final Assignment
-##### The Human Development Index dataset was created to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not economic growth alone. Here, I have wrangled this data into a more concise form and named it "human". In the following data analysis I’m going to  perform Principal Component Analysis (PCA) on the human dataset and then Multiple Correspondence Analysis (MCA) on the tea dataset. Before the actual analysis I'll go through some preliminary explorations of the data.
+### Overview
+##### We live in a turbulent world today. One current socially destabilizing and publically debated phenomena has been the flow of refugees and asylum seekers from Middle East to Europe. In this IODS final assignment my aim is to explore the possible relations among variables that are in my view connected to the ongoing so called “refugee crisis”. I’ll be focusing on countries that are bombing the countries where the major flow of refugees originate from. Here are some questions that interest me. How much refugees do the “bombing” countries have / accept? Does taking part in foreign wars increase the risk of terror attacks? How are these warring countries connected to the arms trade? How succesful economically and socially are these countries? My hypothesis is at this point still vague. It could be put bluntly that “rich countries that are main players in the arms business are bombing poor countries and by doing so are increasing refugee flows across their borders and the risk of terrorist attacks.” Nevertheless, this would be likely oversimplifying the reality.
 
-It's a good idea to introduce the variables of the human dataset before moving further.
 
-* Edu2.F = Proportion of females with at least secondary education
-* Labo.FM = Proportion of females in the labour force
-* Edu.Exp = Expected years of schooling
-* Life.Exp = Life expectancy at birth
-* GNI = Gross National Income per capita
-* Mat.Mor = Maternal mortality ratio
-* Ado.Birth = Adolescent birth rate
-* Parli.F = Percetange of female representatives in parliament
+ In the following data analysis I’m going to  perform Principal Component Analysis (PCA) on the ref dataset. Before the actual analysis I'll go through some preliminary explorations of the data.
 
-Here are the links to the metadata of the Human Development Index dataset.
+It's a good idea to introduce the variables of the ref dataset before moving further.
 
-* [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi)
-* [Calculating the human development indices](http://hdr.undp.org/sites/default/files/hdr2015_technical_notes.pdf)
+* RefAsyl = The amount of refugees per 1000 inhabitants in the asylum country (2015)
+* ArmsTra = The amount of a country's arms exports (2015)
+* BombCtry = Hown many countries the country has been bombing between 2015-2016
+* TerAtt = How many islamist terror attacks has there been in the country between 2015-2017
+* GNI = Gross National Income per capita (2015)
+* FSI = The Fragile state index
+
+Here is the link to my data wrangling file.
+
+* [The datawranling file](github.com/gdookie/IODS-final/blob/master/data/create_ref.R)
+
  
 
 ### 1. Preliminary explorations of the data
