@@ -43,7 +43,8 @@ It's a good idea to introduce the variables of the ref dataset before moving fur
 
 Here is the link to my data wrangling file.
 
-* [The datawranling file](github.com/gdookie/IODS-final/blob/master/data/create_ref.R)
+* [The datawrangling file](https://github.com/gdookie/IODS-final/blob/master/data/create_ref.R)
+
 
  
 
