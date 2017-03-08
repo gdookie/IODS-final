@@ -24,6 +24,27 @@ pop_total2015_ref
 
 ### GET THE GNI PER COUNTRY
 
+gni <- read_delim("GNI_wb.csv", delim="," ,skip=4)
+dim(gni)
+gni <- select(gni, 1, 59)
+
+
+gni
+names(gni) = c("Country", "GNI")
+
+gni
+
+gni <- arrange(gni, desc(GNI))
+head(gni, 25)
+tail(gni, 30)
+
+hd <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human_development.csv", stringsAsFactors = F)
+names(hd)
+
+hdGNI <- select(hd, Country, GNI.per.Capita.Rank.Minus.HDI.Rank)
+
+names(hdGNI) = c("Country", "GNI")
+hdGNI
 ### GET THE ARMS EXPORTS PER COUNTRY
 ### dataset: SIPRI
 arms_ex <- read_csv("TIV-Exp-50-2016.csv", skip=10, col_names=TRUE)
@@ -34,7 +55,7 @@ arms_ex <- select(arms_ex, one_of("Supplier", "2016"))
 names(arms_ex) <- c("ArmSelCntry", "$M2016")
 
 names(arms_ex)
-
+arms_ex
 
 
 ### REFUGESS & TOP REFUGEE ORIGIN COUNTRIES
@@ -45,7 +66,7 @@ names(arms_ex)
 
 #ref_orig <- read.csv("ref_orig2.csv", sep=";", header=TRUE)
 # ref_orig <- read_csv("ref_orig2.csv", delim=";", header=TRUE, col_types= cols( Country = col_character(), PerOfPop = col_double(), RefOrig = col_integer())
-ref_orig <- read_csv("ref_orig2.csv", delim=";", header=TRUE)
+ref_orig <- read.csv("ref_orig2.csv", sep=";", header=TRUE)
 names(ref_orig)
 ref_orig <- select(ref_orig, 1:3)
 
@@ -64,9 +85,11 @@ ref_orig
 
 ref_orig$RefOrig<- str_replace(ref_orig$RefOrig, pattern=",", replace ="") 
 
-ref_orig$RefOrig<- str_replace(ref_orig$RefOrig, pattern=",", replace ="") 
-#ref_orig$PerOfPop <- as.double(ref_orig$PerOfPop)
-ref_orig <- arrange(ref_orig, PerOfPop)
+ref_orig$RefOrig<- str_replace(ref_orig$RefOrig, pattern=",", replace ="")
+ref_orig$RefOrig <- as.numeric(ref_orig$RefOrig)
+ref_orig$PerOfPop <- as.numeric(ref_orig$PerOfPop)
+ref_orig <- arrange(ref_orig, RefOrig)
+glimpse(ref_orig)
 ref_orig
 summarise(ref_orig, sum(PerOfPop))
 #2
