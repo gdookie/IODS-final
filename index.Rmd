@@ -1,7 +1,8 @@
 ---
 title: "Introduction to Open Data Science"
 author: "Gyan Dookie"
-date: "26 February 2017"
+email: "gyan.dookie@gmail.com"
+date: "8 February 2017"
 output: html_document
 theme: cosmo
 toc: true
@@ -13,6 +14,13 @@ code_folding: hide
 ---
 
 ## **Final assignment - Gyan Dookie**
+
+***
+  
+```{r child = "final.Rmd"}
+```
+  
+***
 
 ***
   
