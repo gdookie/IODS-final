@@ -24,9 +24,6 @@ code_folding: hide
 
 ***
   
-```{r child = "chapter5.Rmd"}
-```
-  
 ***
 
 ```{r setup, include=FALSE}
