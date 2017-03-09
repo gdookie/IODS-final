@@ -31,7 +31,7 @@ gni <- select(gni, 1, 59)
 
 gni
 names(gni) = c("Country", "GNI")
-
+names(gni)
 gni
 
 gni <- arrange(gni, desc(GNI))
@@ -47,15 +47,34 @@ names(hdGNI) = c("Country", "GNI")
 hdGNI
 ### 3. GET THE ARMS EXPORTS PER COUNTRY
 ### dataset: SIPRI
+#arms_ex <- read_csv("TIV-Exp-50-2016.csv", skip=10, col_names=TRUE)
 arms_ex <- read_csv("TIV-Exp-50-2016.csv", skip=10, col_names=TRUE)
 names(arms_ex)
 str(arms_ex)
 arms_ex <- select(arms_ex, one_of("Supplier", "2016"))
 
-names(arms_ex) <- c("ArmSelCntry", "$M2016")
+names(arms_ex) <- c("Country", "ArM2016")
 
 names(arms_ex)
 arms_ex
+
+arms_ex2 <- read_excel("SIPRI-2015.xlsx", sheet=6, skip=4, col_names=TRUE)
+names(arms_ex2)
+arms_ex2 <- select(arms_ex2, one_of("Country", "2015"))
+names(arms_ex2)
+str(arms_ex2)
+dim(arms_ex2)
+glimpse(arms_ex2)
+#Remove all rows with missing values
+data.frame(arms_ex2, comp = complete.cases(arms_ex2))
+arms_ex2 <- filter(arms_ex2, complete.cases(arms_ex2) != FALSE)
+names(arms_ex2) = c("Country", "ArM2015")
+names(arms_ex2)
+arms_ex2 <- arrange(arms_ex2, desc(ArM2015))
+# arms_ex2[arms_ex2$Country == "USA"] <- "United States"
+# filter(arms_ex2, Country== "United States")
+# arms_ex2 <- filter(arms_ex2, !is.na(ArM2015))
+# dim(arms_ex2)
 
 ### 4. & 5. TERRORIST ATTACKS PER COUNTRY & COUNTRIES BOMBED 2015-2016
 teratt <- read_csv("itae20152016.csv", col_names=TRUE)
@@ -77,85 +96,101 @@ frgstatI <- select(frgstat, Country, Total)
 frgstatI
 tail(frgstatI, 20)
 names(frgstatI)
-names(arms_ex) = c("Country", "$M2016")
-refBomb <- inner_join(frgstat, arms_ex, by = "Country") %>% inner_join(pop_totals2015, by = "Country") %>% inner_join(teratt, by = "Country")
-#refBomb <- inner_join(refBomb, pop_totals2015, by = "Country")
-names(refBomb)
-head(refBomb,3)
+names(arms_ex)
+
 
 ### 7. REFUGESS & TOP REFUGEE ORIGIN COUNTRIES
 
-#1
-# ref_asylum<- read_excel("ref_orig.xlsx", sheet=1, col_names= c("Country", "refugees per 1000", "Refugees N"))
-# ref_orig <- read_excel("ref_orig.xlsx", sheet=2, col_names=TRUE)
 
-#ref_orig <- read.csv("ref_orig2.csv", sep=";", header=TRUE)
-# ref_orig <- read_csv("ref_orig2.csv", delim=";", header=TRUE, col_types= cols( Country = col_character(), PerOfPop = col_double(), RefOrig = col_integer())
-ref_orig <- read.csv("ref_orig2.csv", sep=";", header=TRUE)
+ref_orig <- read.csv("ref_orig2.csv", sep=";", header=TRUE, stringsAsFactors=FALSE)
 names(ref_orig)
 ref_orig <- select(ref_orig, 1:3)
 
-ref_asylum <- read.csv("ref_asylum.csv", sep=";", header=TRUE)
-names(ref_asylum)
-ref_asylum <- select(ref_orig, 1:3)
 ref_orig
-ref_asylum
 names(ref_orig) = c("Country", "PerOfPop", "RefOrig")
 names(ref_orig)
 
 names(ref_asylum) = c("Country", "Per1000", "RefAsyl")
 names(ref_asylum)
-#ref_orig <- arrange(ref_orig, PerOfPop)
 ref_orig
 
 ref_orig$RefOrig<- str_replace(ref_orig$RefOrig, pattern=",", replace ="") 
-
-ref_orig$RefOrig<- str_replace(ref_orig$RefOrig, pattern=",", replace ="")
-ref_orig$RefOrig <- as.numeric(ref_orig$RefOrig)
-ref_orig$PerOfPop <- as.numeric(ref_orig$PerOfPop)
-ref_orig <- arrange(ref_orig, RefOrig)
-glimpse(ref_orig)
 ref_orig
-summarise(ref_orig, sum(PerOfPop))
-#2
-# #ref_num <- read_csv("unhcr_asylum_seekers.csv",skip=2, col_names=TRUE, col_types = "cccciiiiiiii")
-# ref_num <- read_csv("unhcr_asylum_seekers.csv", col_names=TRUE, col_types= cols( Country= col_character(),)
-# names(ref_num)
-# dim(ref_num)
-# str(ref_num)
-# glimpse(ref_num)
-# names(ref_num)= c("Year", "CtryAsylum", "Orig", "RSD","TotalStY","AppDY","DecRec", "DecOth", "Rejected", "OthClos", "TotDec", "TotEndY" )
+ref_orig$RefOrig<- str_replace(ref_orig$RefOrig, pattern=",", replace ="")
+ref_orig
+ref_orig$RefOrig <- as.numeric(ref_orig$RefOrig)
+#ref_orig$PerOfPop <- as.numeric(ref_orig$PerOfPop)
+ref_orig <- select(ref_orig, Country, RefOrig)
 
-names(ref_num)
-
-ref_num <- select(ref_num, one_of("CtryAsylum", "Orig", "TotalStY", "DecRec", "DecOth", "Rejected", "TotDec"))
-
-glimpse(ref_num)
-
-ref_num$Rejected = as.numeric(ref_num$Rejected)
-ref_num$TotalStY = as.numeric(ref_num$TotalStY)
-glimpse(ref_num)
-#data.frame(ref_num[-1], comp = complete.cases(ref_num))
-#ref_num <- filter(ref_num, complete.cases(ref_num) != FALSE)
-GER <- filter(ref_num, CtryAsylum =="Germany") %>% group_by(Orig) %>% filter(Orig =="Afganistan") %>%summarise(sum(Rejected))
-GER
-
-#ref_num4 <- filter(ref_num, CtryAsylum %in% c("Germany")) %>% group_by(Orig) %>% summarise(sum(Rejected))
-
-# ref_num_cho <- ref_num %>% filter(CtryAsylum %in% c("Germany", "Sweden", "Finland"))
-# ref_num_cho %>% group_by(CtryAsylum) %>% summarise(sum(Rejected))
-ref_num <- filter(ref_num, CtryAsylum %in% c("Germany") & Orig %in% c("Afganistan"))
-ref_num <- group_by(ref_num, CtryAsylum) %>% summarise(sum(Rejected))
-ref_num
+ref_orig <-  arrange(ref_orig, RefOrig)
+ref_orig <- filter(ref_orig, !is.na(RefOrig))
+ref_orig
 
 
-ref_num_2 <- select(ref_num, one_of("Year", "CtryAsylum", "Orig", "TotalStY", "DecRec","DecOth", "Rejected", "TotDec"))
-names(ref_num_2)
-head(ref_num_2)
-ref_num_2gr <- group_by(ref_num_2, CtryAsylum)
-summarise(ref_num_2gr, max("Rejected"))
+ref_asylum  <- read_excel("ref_asyl_wb.xls", sheet=1, skip=3, col_names=TRUE)
+names(ref_asylum)
+ref_asylum <- select (ref_asylum, 1, 60)
+names(ref_asylum) = c("Country", "RefAsyl")
+names(ref_asylum) 
+glimpse(ref_asylum)
+ref_asylum <- filter(ref_asylum, !is.na(RefAsyl))
+ref_asylum_test <- filter(ref_asylum, Country == "United States")
+ref_asylum_test
 
 
 
 
 ### JOIN DATAFRAMES
+glimpse(ref_asylum)
+
+total <- merge(frgstat,pop_totals2015,by="Country")
+print(total)
+
+
+# refBomb0 <-inner_join(frgstat, arms_ex, by = "Country")
+# refBomb0[is.na(refBomb0)] <- 0
+# refBomb0
+arms_ex
+#refBomb <- inner_join(frgstat, pop_totals2015, by = "Country")
+#refBomb <- inner_join(frgstat, arms_ex, by = "Country")
+
+refBomb <- left_join(frgstat, arms_ex, by = "Country") %>% left_join(pop_totals2015, by = "Country") %>% left_join(teratt, by = "Country")  %>% left_join(ref_asylum, by = "Country")  %>% left_join(ref_orig, by = "Country") %>% left_join(gni, by = "Country") 
+
+#refBomb <- inner_join(refBomb, pop_totals2015, by = "Country")
+refBomb <- mutate(refBomb,  refPer = round(RefAsyl * 100 /Pop2015, digits=2))
+names(refBomb)
+dim(refBomb)
+summary(refBomb$refPer)
+refBomb
+refBomb <- select(refBomb, c(Country, Total, TerAtt, CtryBomb, ArM2016, RefOrig,GNI, refPer))
+names(refBomb) = c("Country", "FSI", "TerAtt", "CtryBomb", "ArmSale","RefOrig", "GNI", "refPer")
+names(refBomb)
+refBomb$TerAtt[is.na(refBomb$TerAtt)] <- 0
+refBomb$TerAtt
+refBomb$CtryBomb[is.na(refBomb$CtryBomb)] <- 0
+refBomb$CtryBomb
+refBomb$ArmSale[is.na(refBomb$ArmSale)] <- 0
+refBomb$ArmSale
+refBomb$Country
+data.frame(refBomb, comp = complete.cases(refBomb))
+refBomb<- filter(refBomb, complete.cases(refBomb) != FALSE)
+dim(refBomb)
+refBomb$Country
+
+refBomb <- rbind(refBomb, c("Syria", as.numeric(111), as.numeric(0), as.numeric(1), as.numeric(0),as.numeric(3869626), as.numeric(5120), as.numeric(13,4))) 
+
+refBomb$Country
+filter(refBomb, Country=="Syria")
+names(refBomb)
+refBomb$FSI <- as.numeric(refBomb$FSI)
+refBomb$TerAtt <- as.numeric(refBomb$TerAtt)
+refBomb$CtryBomb <- as.numeric(refBomb$CtryBomb)
+refBomb$ArmSale <- as.numeric(refBomb$ArmSale)
+refBomb$RefOrig<- as.numeric(refBomb$RefOrig)
+refBomb$GNI<- as.numeric(refBomb$GNI)
+refBomb$refPer <- as.numeric(refBomb$refPer)
+
+str(refBomb)
+refBomb
+
+write.csv(human, "/Users/gyandookie/IODS-final/data/refBomb.csv")
