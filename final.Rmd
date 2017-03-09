@@ -21,7 +21,11 @@ library(GGally)
 # Load the ‘human’ data into R. Explore the structure and the dimensions of the data and describe the dataset briefly, assuming the reader has no previous knowledge of it (this is now close to the reality, since you have named the variables yourself). (0-1 point)
 
 #human <- read.table("data/human.csv", header= TRUE, sep=",")
-human <- read.table ("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human2.txt", header=TRUE, sep=",")
+setwd("/Users/gyandookie/IODS-final")
+
+#refBomb<- read.csv ("data/refBomb.csv", header=TRUE, sep=",", quote="", stringsAsFactors = FALSE)
+refBomb<- read.csv ("data/refBomb.csv", header=TRUE, sep=",", stringsAsFactors = FALSE)
+
 
 ```
 
@@ -34,12 +38,14 @@ human <- read.table ("http://s3.amazonaws.com/assets.datacamp.com/production/cou
 
 It's a good idea to introduce the variables of the ref dataset before moving further.
 
-* RefAsyl = The amount of refugees per 1000 inhabitants in the asylum country (2015)
-* ArmsTra = The amount of a country's arms exports (2015)
-* BombCtry = Hown many countries the country has been bombing between 2015-2016
+* Country
+* FSI - Fragile State Index, a variable combined of other variables estimating e.g. stability, human rights, freedom of press in a country
 * TerAtt = How many islamist terror attacks has there been in the country between 2015-2017
-* GNI = Gross National Income per capita (2015)
-* FSI = The Fragile state index
+* CtryBomb = Hown many countries the country has been bombing between 2015-2016
+* ArmsSale = The amount of a country's arms exports (2015)
+* RefOrig = The amount of refugees originating from a country
+* GNI = Gross National Income per Capita
+* refPer - The amount of refugees in the asylum country
 
 Here is the link to my data wrangling file.
 
@@ -60,18 +66,18 @@ Below is the structure of the human dataset. The following characteristics of th
 
 
 ```{r, echo=FALSE}
-
-dim(human)
-str(human)
+refBomb<- refBomb[-1]
+dim(refBomb)
+str(refBomb)
 
 ```
 <!--Show a graphical overview of the data and show summaries of the variables in the data. Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them. (0-2 points)-->
 
 #### **1.2 The summary of the data**
-Here we'll print out the summary of the data with the *summary()* function to get a grasp of the min, max, median, mean and quantiles of the data.
+Here we'll print out the summary of the data with the *summary()* function to get a grasp of the min, max, median, mean and quantiles of the data. 
 
 ```{r, echo=FALSE}
-summary(human)
+summary(refBomb)
 
 ```
 
@@ -80,16 +86,8 @@ Here are the standard deviations of the variables.
 
 ```{r, echo=FALSE}
 # Lasketaan muuttujien keskihajonnat (tehdään tämä uudestaan, kun muuttujat on skaalattu)
-summarise (human, sd(Edu2.FM),sd(Labo.FM),sd(Edu.Exp),sd(Life.Exp),sd(GNI),sd(Mat.Mor),sd(Ado.Birth),sd(Parli.F))
+summarise (refBomb, sd(FSI),sd(TerAtt),sd(CtryBomb),sd(ArmSale),sd(RefOrig),sd(GNI),sd(refPer))
 
-
-
-#B1 <- Boston
-## Next we'll print out the summary
-#summary(Boston)
-
-#group_by(set) %>%
- # summarize(N = n(), Mx= mean(x),Sdx= sd(x), My=mean(y), Sdy=sd(y), cor(x,y))
 
 
 ```
@@ -99,8 +97,9 @@ Let's visualize our data to get a better overall picture of it. First we'll prod
 
 ```{r, echo=FALSE}
 # Then we'll take a look at the graphical overview
-pairs(human)
-ggpairs(human)
+refBomb_1 <- select(refBomb, -Country)
+pairs(refBomb_1)
+ggpairs(refBomb_1)
 
 
 
@@ -112,7 +111,7 @@ Now it's time to produce a table of the correlations with the  *cor()* function.
 
 ```{r, echo=FALSE}
 
-cor_matrix<-cor(human)%>% round(2)
+cor_matrix<-cor(refBomb_1)%>% round(2)
 cor_matrix
 
 
@@ -183,17 +182,17 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 ```
 
     
-### **2. Performing the Principal component analysis (PCA) on the human data**
-#### **2.1 PCA on non-standardized data**
-Next we'll perform principal component analysis (PCA) on the not standardized human data and show variability captured by the principal components.
+<!-- ### **2. Performing the Principal component analysis (PCA) on the human data** -->
+<!-- #### **2.1 PCA on non-standardized data** -->
+<!-- Next we'll perform principal component analysis (PCA) on the not standardized human data and show variability captured by the principal components. -->
 ```{r, echo=FALSE, message= FALSE, warning=FALSE}
 ### PCA on the non standardized human data
-pca_human <- prcomp(human)
-s <- summary(pca_human)
-
-pca_pr <- round(100*s$importance[2, ], digits = 1)
-pca_pr
-pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
+# pca_human <- prcomp(human)
+# s <- summary(pca_human)
+# 
+# pca_pr <- round(100*s$importance[2, ], digits = 1)
+# pca_pr
+# pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 ## puuttuuko jotain dataa, kun ilmoittaa zero-lenght
 
@@ -204,13 +203,11 @@ Then we'll draw a biplot displaying the observations by the first two principal 
 
 # bibplot of first two principal components
 # draw a biplot of the principal component representation and the original variables
-biplot(pca_human, choices = 1:2, cex=c(1.0 ,1.0), col= c("grey40", "blue"), xlab = pc_lab[1] , ylab = pc_lab[2])
+# biplot(pca_human, choices = 1:2, cex=c(1.0 ,1.0), col= c("grey40", "blue"), xlab = pc_lab[1] , ylab = pc_lab[2])
 
 ```
 
-There’s something wrong with this PCA and it’s plot. The first principal (PC1) component explain 100% of the variance and the following principal components (PC2-PC8) explain 0 %. The only variable name shown is GNI which is connected to the first principal component. PCA is sensitive to the relative scaling of the original features and assumes that features with larger variance are more important than features with smaller variance. The human dataset's GNI variable has a radically bigger scale and thus bigger variance than other variables (the long arrow also tells us there’s a quite big stadard variation within this variable). This is why this PCA with non-standardized variables failed miserably.
 
-Let’s fix this problem by standardizing the data before using it in the principal component analysis.
 
 #### **2.2 PCA on standardized/scaled data**
 Here are the summaries of the scaled variables. See how the variables changed ( e.g. the means are now all at zero). As we can see below, the distribution of explainability is now more spread among the PC's. The PCA plot also makes now a lot more sense.
@@ -218,8 +215,8 @@ Here are the summaries of the scaled variables. See how the variables changed ( 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # standardize the variables
-human_std <- scale(human)
-summary(human_std)
+refBomb_std <- scale(refBomb_1)
+summary(refBomb_std)
 #str(human_std)
 
 ```
@@ -232,8 +229,8 @@ summary(human_std)
 ```{r, echo=FALSE}
 
 # perform principal component analysis (with the SVD method)
-pca_human <- prcomp(human_std)
-s <- summary(pca_human)
+pca_refBomb <- prcomp(refBomb_std)
+s <- summary(pca_refBomb)
 pca_pr <- round(100*s$importance[2, ], digits = 1)
 pca_pr
 pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
@@ -244,14 +241,14 @@ pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 #biplot(pca_human, choices = 1:3, cex=c(1 ,1.2), col= c("grey40", "deeppink2"))
 
-biplot(pca_human, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), xlab = pc_lab[1] , ylab = pc_lab[2], main="\n Education, wealth, life expectancy and \n women's role in society \n\n\n")
+biplot(pca_refBomb, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), xlab = pc_lab[1] , ylab = pc_lab[2], main="\n Education, wealth, life expectancy and \n women's role in society \n\n\n")
 ```
 
 **Let's take a closer look at the countries on the "west side" of the biplot and close to PC2.**
 
 ```{r,echo=FALSE}
 
-biplot(pca_human, expand=15, xlim=c(-0.30, 0.0), ylim=c(-0.1, 0.1))
+biplot(pca_refBomb, expand=4, xlim=c(0.5, -0.2), ylim=c(-0.1, 0.1))
 ```
 
 <!-- Let's interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Including captions in the plots where I describe the results by using not just your variable names, but the actual phenomenons they relate to. (0-4 points) -->
@@ -304,10 +301,10 @@ Next we'll load the tea dataset from the package Factominer and explore the data
 
 
 ```{r, echo=FALSE, message=FALSE}
-# Install Factominer and load in the tea dataset
-#install.packages("FactoMineR")
-library(FactoMineR)
-data(tea)
+# # Install Factominer and load in the tea dataset
+# #install.packages("FactoMineR")
+# library(FactoMineR)
+# data(tea)
 
 ```
 
@@ -323,17 +320,17 @@ Let's look at the structure and the dimensions of the data first. Then we'll cre
 * sex
 
 ```{r, echo=FALSE, warning=FALSE}
-# column names to keep in the dataset
-keep_columns <- c("Sport", "effect.on.health", "sophisticated", "spirituality", "friends", "sex")
-#keep_columns <- c("Tea", "How", "how", "sugar", "where", "lunch")
-keep_columns
-#head(tea)
-dim(tea)
-str(tea)
-names(tea)
-# select the 'keep_columns' to create a new dataset
-#tea <- data.frame(tea)
-tea_time <- dplyr::select(tea, one_of(keep_columns))
+# # column names to keep in the dataset
+# keep_columns <- c("Sport", "effect.on.health", "sophisticated", "spirituality", "friends", "sex")
+# #keep_columns <- c("Tea", "How", "how", "sugar", "where", "lunch")
+# keep_columns
+# #head(tea)
+# dim(tea)
+# str(tea)
+# names(tea)
+# # select the 'keep_columns' to create a new dataset
+# #tea <- data.frame(tea)
+# tea_time <- dplyr::select(tea, one_of(keep_columns))
 
 ```
 
@@ -341,9 +338,9 @@ tea_time <- dplyr::select(tea, one_of(keep_columns))
 
 ```{r, echo=FALSE}
 
-# look at the summaries and structure of the data
-str(tea_time)
-summary(tea_time)
+# # look at the summaries and structure of the data
+# str(tea_time)
+# summary(tea_time)
 
 
 ```
@@ -352,8 +349,8 @@ summary(tea_time)
 
 ```{r, echo=FALSE, warning=FALSE}
 
-# visualize the dataset
-gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar() + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+# # visualize the dataset
+# gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar() + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
 
 
 ```
@@ -381,11 +378,11 @@ Let's do the multiple correspondence analysis of selected tea variables.
 
 ```{r, echo=FALSE, warning=FALSE}
 
-# multiple correspondence analysis
-mca <- MCA(tea_time, graph = FALSE)
-
-# summary of the model
-summary(mca)
+# # multiple correspondence analysis
+# mca <- MCA(tea_time, graph = FALSE)
+# 
+# # summary of the model
+# summary(mca)
 ```
 
 #### **3.5 Analyzing the MCA's summary table**
@@ -406,9 +403,9 @@ summary(mca)
 
 #### **3.6 Visualizing the Multiple Correspondence Analysis with the plot() function**
 ```{r, echo=FALSE}
-#names(mca)
-# visualize MCA
-plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking vs. \n sport, social and spiritual orientations")
+# #names(mca)
+# # visualize MCA
+# plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking vs. \n sport, social and spiritual orientations")
 
 
 
@@ -422,8 +419,8 @@ This proportional barplot confirms that women drink tea more with friends than m
 
 ```{r, echo=FALSE}
 
-ggplot(tea_time, aes(x = sex, fill = friends)) + 
-  geom_bar(position = "fill") + ylab("Proportion")
+# ggplot(tea_time, aes(x = sex, fill = friends)) + 
+#   geom_bar(position = "fill") + ylab("Proportion")
 
 ```
 
@@ -432,8 +429,8 @@ The above MCA-biplot showed that women regard tea drinking more than men as soph
 
 ```{r,echo=FALSE}
 
-ggplot(tea_time, aes(x = sex, fill = sophisticated)) + 
-  geom_bar(position = "fill") + ylab("Proportion")
+# ggplot(tea_time, aes(x = sex, fill = sophisticated)) + 
+#   geom_bar(position = "fill") + ylab("Proportion")
 
 ```
 
