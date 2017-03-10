@@ -1,8 +1,8 @@
 ### Author: Gyan Dookie
 ### Here I'll create a dataset by importing and combining multiple datasets
-### The aim of the dataset is include variables connected, in a broader view, to the refugee crisis
+### The aim here is to produce a dataset with variables that are directly connected or could be connected in a wider sense to the refugee crisis
 
-### Installing and loading the packages and libraries I'll need
+### Installing and loading the packages and libraries I'll need for my data wrangling
 
 #install.packages("readr")
 library(dplyr)
@@ -16,6 +16,7 @@ setwd("/Users/gyandookie/IODS-final/data")
 ### 1. GET THE TOTAL POPULATION NUMBERS (2015)
 ### Importing data
 ### Population dataset by World Bank
+### The read_excel function is a very handy tool for importing excel data into R files
 pop_totals <- read_excel("pop_total.xls", sheet=1, skip=3, col_names=TRUE)
 str(pop_totals)
 dim(pop_totals)

@@ -17,7 +17,7 @@ output:
 ## **Final assignment - Gyan Dookie**
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# knitr::opts_chunk$set(echo = TRUE)
 
 
 #install.packages("dplyr",  repos = "https://ftp.acc.umu.se/mirror/CRAN/")
@@ -32,12 +32,10 @@ library(tidyr)
 library(ggplot2)
 library(GGally)
 
-# Load the ‘human’ data into R. Explore the structure and the dimensions of the data and describe the dataset briefly, assuming the reader has no previous knowledge of it (this is now close to the reality, since you have named the variables yourself). (0-1 point)
 
-#human <- read.table("data/human.csv", header= TRUE, sep=",")
 setwd("/Users/gyandookie/IODS-final")
 
-#refBomb<- read.csv ("data/refBomb.csv", header=TRUE, sep=",", quote="", stringsAsFactors = FALSE)
+
 refBomb<- read.csv ("data/refBomb.csv", header=TRUE, sep=",", stringsAsFactors = FALSE)
 
 
@@ -100,7 +98,7 @@ dim(refBomb)
 str(refBomb)
 
 ```
-<!--Show a graphical overview of the data and show summaries of the variables in the data. Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them. (0-2 points)-->
+<!--Showing a graphical overview of the data and showing summaries of the variables in the data. Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them. (0-2 points)-->
 
 #### **1.2 The summary of the data**
 Here we'll print out the summary of the data with the *summary()* function to get a grasp of the min, max, median, mean and quantiles of the data. 
@@ -170,7 +168,10 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
     * A noticeable, but not so strong correlation showed between how much the country bombed other countries and Islamist terrorist attacks taking place in that country. My hypothesis was originally that this "revenge" connection would be stronger. One aspect that could weaken this connection is that islamist terrorist attacks happened in the conflict hotspot countries (i.e. Afganistan, Pakistan, Iraq). Some of these could be categorized as resistance in a civil war.
 * Another correlation of similar strength was found between GNI and bombing other countries. This finding supports my hypothesis of rich countries bombing poor countries.
 
+**The distributions of the data**
 
+* Allmost all the variables were (left) skewed
+* The FSI variables distribution was closest to a normal distribution and had a slight bimodal tendency
 
 <!--  More plots here (boxplots, density plots, bar plots) -->
 
@@ -192,27 +193,11 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 
 
 ```{r, echo=TRUE}
-# library(dplyr)
-# 
-#  boston_scaled %>%
-#   summarise(sd(crim),
-#             sd(zn), sd(indus), sd(chas), sd(nox), sd(rm), sd(age), sd(dis), sd(rad), sd(tax),sd(ptratio), sd(black), sd(lstat), sd(medv))
+
 ```
 
     
-<!-- ### **2. Performing the Principal component analysis (PCA) on the human data** -->
-<!-- #### **2.1 PCA on non-standardized data** -->
-<!-- Next we'll perform principal component analysis (PCA) on the not standardized human data and show variability captured by the principal components. -->
-```{r, echo=FALSE, message= FALSE, warning=FALSE}
-### PCA on the non standardized human data
-# pca_human <- prcomp(human)
-# s <- summary(pca_human)
-# 
-# pca_pr <- round(100*s$importance[2, ], digits = 1)
-# pca_pr
-# pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
-## puuttuuko jotain dataa, kun ilmoittaa zero-lenght
 
 ```
 
@@ -259,7 +244,7 @@ pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 #biplot(pca_human, choices = 1:3, cex=c(1 ,1.2), col= c("grey40", "deeppink2"))
 
-biplot(pca_refBomb, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), xlab = pc_lab[1] , ylab = pc_lab[2], main="\n Arms sales, bombing, refugees and \n the stability/fragility of a country. \n\n\n")
+biplot(pca_refBomb, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), xlab = pc_lab[1] , ylab = pc_lab[2], main="\n Arms sales, bombing foreign countries, refugees and \n the stability/fragility of a country. \n\n\n")
 ```
 
 **Let's take a closer look at the countries on the "west side" of the biplot and close to PC2.**
@@ -269,14 +254,12 @@ biplot(pca_refBomb, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), x
 biplot(pca_refBomb, expand=4, xlim=c(0.5, -0.2), ylim=c(-0.1, 0.1))
 ```
 
-<!-- Let's interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Including captions in the plots where I describe the results by using not just your variable names, but the actual phenomenons they relate to. (0-4 points) -->
 
-<!-- Give your personal interpretations of the first two principal component dimensions based on the biplot drawn after PCA on the standardized human data. (0-2 points) -->
 
 #### **2.3 Intepretation and analysis of PCA and the corresponding biplots**
 The PCA biplot based on the standardized variables offers visual information that supports our earlier findings.
 
-*
+
 
 
 
@@ -297,42 +280,17 @@ The variables/features connected to the PC1 dimension are CtryBomb, ArmSale and 
 The 2nd principal component PC2 is orthogonal to the first and it captures the maximum amount of variability/variance left. Here that amount is 27.2 % and variables in the closest relationship to this principal component are RefOrig and perP. So the stability of a country is connected to the amount of refugees in that country.
 
 
-<!-- ### **3. Performing the Multiple Correspondence Analysis (MCA) on the tea data** -->
 
-<!-- Next we'll load the tea dataset from the package Factominer and explore the data briefly. -->
 
 
 ```{r, echo=FALSE, message=FALSE}
-# # Install Factominer and load in the tea dataset
-# #install.packages("FactoMineR")
-# library(FactoMineR)
-# data(tea)
 
 ```
 
-<!-- #### **3.1 The structure and dimensions of the data** -->
 
-<!-- Let's look at the structure and the dimensions of the data first. Then we'll create a subset of it by selecting the following variables. -->
-
-<!-- * Sport -->
-<!-- * effect.on.health -->
-<!-- * sophisticated -->
-<!-- * spirituality -->
-<!-- * friends -->
-<!-- * sex -->
 
 ```{r, echo=FALSE, warning=FALSE}
-# # column names to keep in the dataset
-# keep_columns <- c("Sport", "effect.on.health", "sophisticated", "spirituality", "friends", "sex")
-# #keep_columns <- c("Tea", "How", "how", "sugar", "where", "lunch")
-# keep_columns
-# #head(tea)
-# dim(tea)
-# str(tea)
-# names(tea)
-# # select the 'keep_columns' to create a new dataset
-# #tea <- data.frame(tea)
-# tea_time <- dplyr::select(tea, one_of(keep_columns))
+
 
 ```
 
@@ -340,9 +298,6 @@ The 2nd principal component PC2 is orthogonal to the first and it captures the m
 
 ```{r, echo=FALSE}
 
-# # look at the summaries and structure of the data
-# str(tea_time)
-# summary(tea_time)
 
 
 ```
@@ -357,53 +312,31 @@ The 2nd principal component PC2 is orthogonal to the first and it captures the m
 
 ```
 
-<!-- Here's a summary of the tea data's variables and the distributions within their levels. -->
+
 
 ```{r, echo=FALSE}
 #summary(tea)
 
 ```
 
-<!-- Let's take a look at the correlations of the tea dataset with cor() (produces a correlation matrix) and corrplot() (visualizes the correlation matrix as pairs)-->
+
 
 
 ````{r, echo=FALSE}
 
 
 
-# Now we'll visualize the correlation matrix. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
-#corrplot(cor_matrixT, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl.cex=0.6)
+
 ```
 
-<!-- #### **3.4 Performing the Multiple Correspondence analysis on the data** -->
-<!-- Let's do the multiple correspondence analysis of selected tea variables. -->
+
 
 ```{r, echo=FALSE, warning=FALSE}
 
-# # multiple correspondence analysis
-# mca <- MCA(tea_time, graph = FALSE)
-# 
-# # summary of the model
-# summary(mca)
+
 ```
 
-<!-- #### **3.5 Analyzing the MCA's summary table** -->
 
-<!-- * The eigen values show the amount of variance captured by the different dimensions. Here we can see the following. -->
-<!--     * Dimension 1 captures 22.5 % of the variance within the data  -->
-<!--     * Dimension 2 captures 17.5 % of the variance within the data -->
-<!--     *The first two dimensions capture approximately 40 % of the variance within the data. This amount is considerably lower than the amount captured by the first two principal components in the previous analysis of the human dataset. -->
-<!-- * The individuals -->
-<!--     * the individuals coordinates, the individuals contribution (%) on the dimension and the cos2 (the squared correlations) on the dimensions. -->
-<!-- * The categories -->
-<!--     * The Categories part shows coordinates of the variable categories, the contribution (%), the cos2 (the squared correlations) and v.test value. -->
-
-<!-- * The Categorical value -->
-<!--     * Shows the squared correlation between each variable and the dimensions -->
-<!--     * If the value is close to one it indicates a strong link with the variable and dimension. Here (among the three dimensions shown), only Dimension 3 and and the effect.on.health have a categorical variable that is close to one (0.876) -->
-
-
-<!-- #### **3.6 Visualizing the Multiple Correspondence Analysis with the plot() function** -->
 ```{r, echo=FALSE}
 # #names(mca)
 # # visualize MCA
@@ -414,10 +347,7 @@ The 2nd principal component PC2 is orthogonal to the first and it captures the m
 
 ```
 
-<!-- #### **3.7 Some conclusions of the MCA and it's plot** -->
-<!-- * There’s a clear difference in the social role of tea between females and males. Men prefer drinking tea alone more often than women and women tend to drink tea with friends more often than men. -->
 
-<!-- This proportional barplot confirms that women drink tea more with friends than men do (which was also suggested by the MCA-plot above). -->
 
 ```{r, echo=FALSE}
 
@@ -427,7 +357,7 @@ The 2nd principal component PC2 is orthogonal to the first and it captures the m
 ```
 
 
-<!-- The above MCA-biplot showed that women regard tea drinking more than men as sophisticated. This finding is confirmed in the barplot below. -->
+
 
 ```{r,echo=FALSE}
 
@@ -459,16 +389,7 @@ The 2nd principal component PC2 is orthogonal to the first and it captures the m
 
 ```
 
-***
 
-<!-- ```{r child = "final.Rmd"} -->
-<!-- ``` -->
-  
-***
-
-***
-  
-***
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
