@@ -61,7 +61,7 @@ It's a good idea to introduce the variables of the ref dataset before moving fur
 * GNI = Gross National Income per Capita
      * Gross National Income data was provided by World Bank
 * refPer - The amount of refugees in the asylum country
-    * This variable was produced/mutated by me (by  multiplying the amount of refugees / asylum seekers in a country of asylum and dividing it with the population of that country)
+    * This variable was produced/mutated by me (by  multiplying the amount of refugees / asylum seekers in a country of asylum by hundred and  then dividing it with the population of that country)
 
 Here is the link to my data wrangling file.
 

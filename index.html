@@ -139,13 +139,25 @@ true
 <p>It’s a good idea to introduce the variables of the ref dataset before moving further.</p>
 <ul>
 <li>Country</li>
-<li>FSI - Fragile State Index, a variable combined of other variables estimating e.g. stability, human rights, freedom of press in a country</li>
+<li>FSI - Fragile States Index, a variable combined of other variables estimating e.g. stability, human rights, freedom of press in a country
+<ul>
+<li>This data is from Fund for Peace’s yearly published Fragile States -dataset</li>
+</ul></li>
 <li>TerAtt = How many islamist terror attacks has there been in the country between 2015-2017</li>
 <li>CtryBomb = Hown many countries the country has been bombing between 2015-2016</li>
-<li>ArmsSale = The amount of a country’s arms exports (2015)</li>
+<li>ArmsSale = The amount of a country’s arms exports (2015)
+<ul>
+<li>This data is from SIPRI’s MILEX dataset</li>
+</ul></li>
 <li>RefOrig = The amount of refugees originating from a country</li>
-<li>GNI = Gross National Income per Capita</li>
-<li>refPer - The amount of refugees in the asylum country</li>
+<li>GNI = Gross National Income per Capita
+<ul>
+<li>Gross National Income data was provided by World Bank</li>
+</ul></li>
+<li>refPer - The amount of refugees in the asylum country
+<ul>
+<li>This variable was produced/mutated by me (by multiplying the amount of refugees / asylum seekers in a country of asylum and dividing it with the population of that country)</li>
+</ul></li>
 </ul>
 <p>Here is the link to my data wrangling file.</p>
 <ul>
@@ -153,8 +165,8 @@ true
 </ul>
 </div>
 </div>
-<div id="brief-description-of-methods" class="section level3">
-<h3>Brief description of methods</h3>
+<div id="brief-description-of-the-used-methods" class="section level3">
+<h3>Brief description of the used methods</h3>
 <p>My method is to bring together different variables that seem to revolve around a phenomena and see what kind of correlations this operation reveals. After some basic explorations (i.e. the structure and summaries of the data) I’ll produce the correlations of the data and plot these visually. In the next phase I’ll use the Principal component analysis (PCA) and interpret what this reveals. Finally I’ll add some more visualizations of the data.</p>
 </div>
 <div id="preliminary-explorations-of-the-data" class="section level3">
