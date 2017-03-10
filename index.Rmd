@@ -4,19 +4,19 @@ author: "Gyan Dookie"
 email: "gyan.dookie@gmail.com"
 date: "8 March 2017"
 output: 
-html_document:
-  theme: cosmo
-  toc: true
-  toc_depth: 2
-  fig_caption: true
-  fig_width: 6
-  fig_height: 4
-  code_folding: hide
+  html_document:
+   theme: cosmo
+   toc: true
+   toc_depth: 2
+   fig_caption: true
+   fig_width: 6
+   fig_height: 4
+   code_folding: hide
 ---
 
 ## **Final assignment - Gyan Dookie**
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 
@@ -94,7 +94,7 @@ Below is the structure of the human dataset. The following characteristics of th
 
 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 refBomb<- refBomb[-1]
 dim(refBomb)
 str(refBomb)
@@ -105,7 +105,7 @@ str(refBomb)
 #### **1.2 The summary of the data**
 Here we'll print out the summary of the data with the *summary()* function to get a grasp of the min, max, median, mean and quantiles of the data. 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 summary(refBomb)
 
 ```
@@ -113,7 +113,7 @@ summary(refBomb)
 Here are the standard deviations of the variables.
 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 # Lasketaan muuttujien keskihajonnat (tehdään tämä uudestaan, kun muuttujat on skaalattu)
 summarise (refBomb, sd(FSI),sd(TerAtt),sd(CtryBomb),sd(ArmSale),sd(RefOrig),sd(GNI),sd(refPer))
 
@@ -124,7 +124,7 @@ summarise (refBomb, sd(FSI),sd(TerAtt),sd(CtryBomb),sd(ArmSale),sd(RefOrig),sd(G
 #### **1.3 The graphical overview of the summarized data**
 Let's visualize our data to get a better overall picture of it. First we'll produce a matrix plot with the basic package's pairs() and then with GGally package's ggpairs().
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 # Then we'll take a look at the graphical overview
 refBomb_1 <- select(refBomb, -Country)
 pairs(refBomb_1)
@@ -138,7 +138,7 @@ ggpairs(refBomb_1)
 
 Now it's time to produce a table of the correlations with the  *cor()* function. Here the correlations were rounded to two desimals to save space.
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 
 cor_matrix<-cor(refBomb_1)%>% round(2)
 cor_matrix
@@ -150,7 +150,7 @@ cor_matrix
 
 Here's the visualization of the correlation matrix with the advanced *corrplot()* function. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 # Now we'll visualize the correlation matrix. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
 corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl.cex=0.6)
 
@@ -177,7 +177,7 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 
 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 # 
 # boxplots
 
@@ -185,13 +185,13 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 
 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 
 ```
 
 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 # library(dplyr)
 # 
 #  boston_scaled %>%
@@ -217,7 +217,7 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 ```
 
 Then we'll draw a biplot displaying the observations by the first two principal components (PC1 coordinate in x-axis, PC2 coordinate in y-axis), along with arrows representing the original variables. (0-2 points)
-```{r, echo=FALSE, message= FALSE, warning=FALSE}
+```{r, echo=TRUE, message= FALSE, warning=FALSE}
 
 # bibplot of first two principal components
 # draw a biplot of the principal component representation and the original variables
@@ -231,7 +231,7 @@ Then we'll draw a biplot displaying the observations by the first two principal 
 Here are the summaries of the scaled variables. See how the variables changed ( e.g. the means are now all at zero). As we can see below, the distribution of explainability is now more spread among the PC's. The PCA plot also makes now a lot more sense.
 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
 # standardize the variables
 refBomb_std <- scale(refBomb_1)
 summary(refBomb_std)
@@ -244,7 +244,7 @@ summary(refBomb_std)
 #summarise(human_std_mat, sd(Edu2.FM),sd(Labo.FM),sd(Edu.Exp),sd(Life.Exp),sd(GNI),sd(Mat.Mor),sd(Ado.Birth),sd(Parli.F)
 
 ```
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 
 # perform principal component analysis (with the SVD method)
 pca_refBomb <- prcomp(refBomb_std)
@@ -264,7 +264,7 @@ biplot(pca_refBomb, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), x
 
 **Let's take a closer look at the countries on the "west side" of the biplot and close to PC2.**
 
-```{r,echo=FALSE}
+```{r,echo=TRUE}
 
 biplot(pca_refBomb, expand=4, xlim=c(0.5, -0.2), ylim=c(-0.1, 0.1))
 ```
