@@ -283,15 +283,18 @@ The 2nd principal component PC2 is orthogonal to the first and it captures the m
 
 
 
-**Further plotting and analysis of the correlations and their variables that the above plotting and analysis revealed as interesting**
+####**2.4 Further plotting and analysis of the correlations (and their variables) that the above plotting and analysis revealed as interesting**
 
 
 ```{r, echo=FALSE, message=FALSE}
 
-  
+  ggplot(refBomb, aes(x = as.factor(CtryBomb), y = ArmSale)) +
+    geom_boxplot() + ylab("Country's military exports in million dollars") + xlab("The number of countries a country is bombing") + ggtitle("Military exports vs. Bombing other countries")
+
 
 ```
 
+Looks like the above boxplot confirms our previous findings. The amount of a country's military exports seem to increase the chance of that country bombing other countries. Nevertheless, we should test for other possible variables that could increase the likelihood of this before making any definitive assumptions.
 
 
 ```{r, echo=FALSE, warning=FALSE}
