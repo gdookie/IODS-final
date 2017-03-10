@@ -51,19 +51,23 @@ refBomb<- read.csv ("data/refBomb.csv", header=TRUE, sep=",", stringsAsFactors =
 It's a good idea to introduce the variables of the ref dataset before moving further.
 
 * Country
-* FSI - Fragile State Index, a variable combined of other variables estimating e.g. stability, human rights, freedom of press in a country
+* FSI - Fragile States Index, a variable combined of other variables estimating e.g. stability, human rights, freedom of press in a country
+    * This data is from Fund for Peace's yearly published  Fragile States -dataset
 * TerAtt = How many islamist terror attacks has there been in the country between 2015-2017
 * CtryBomb = Hown many countries the country has been bombing between 2015-2016
 * ArmsSale = The amount of a country's arms exports (2015)
+    * This data is from SIPRI's MILEX dataset
 * RefOrig = The amount of refugees originating from a country
 * GNI = Gross National Income per Capita
+     * Gross National Income data was provided by World Bank
 * refPer - The amount of refugees in the asylum country
+    * This variable was produced/mutated by me (by  multiplying the amount of refugees / asylum seekers in a country of asylum and dividing it with the population of that country)
 
 Here is the link to my data wrangling file.
 
 * [The datawrangling file](https://github.com/gdookie/IODS-final/blob/master/data/create_ref.R)
 
-### Brief description of methods
+### Brief description of the used methods
 
 My method is to bring together different variables that seem to revolve around a phenomena and see what kind of correlations this operation reveals. After some basic explorations (i.e. the structure and summaries of the data) I’ll produce the correlations of the data and plot these visually. In the next phase I’ll use the Principal component analysis (PCA) and interpret what this reveals. Finally I’ll add some more visualizations of the data.
 
