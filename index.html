@@ -187,7 +187,7 @@ refBomb&lt;- read.csv (&quot;data/refBomb.csv&quot;, header=TRUE, sep=&quot;,&qu
 </ul></li>
 <li>TerAtt = How many islamist terror attacks has there been in the country between 2015-2017</li>
 <li>CtryBomb = Hown many countries the country has been bombing between 2015-2016</li>
-<li>ArmsSale = The amount of a country’s arms exports (2015)
+<li>ArmSale = The amount of a country’s arms exports (2015)
 <ul>
 <li>This data is from SIPRI’s MILEX dataset</li>
 </ul></li>
@@ -224,7 +224,8 @@ refBomb&lt;- read.csv (&quot;data/refBomb.csv&quot;, header=TRUE, sep=&quot;,&qu
 <li>155 rows</li>
 <li>8 variables</li>
 </ul>
-<pre class="r"><code>refBomb&lt;- refBomb[-1]
+<pre class="r"><code>refBombC &lt;- refBomb
+refBomb&lt;- refBomb[-1]
 dim(refBomb)</code></pre>
 <pre><code>## [1] 139   8</code></pre>
 <pre class="r"><code>str(refBomb)</code></pre>
@@ -376,6 +377,7 @@ biplot(pca_refBomb, choices = 1:2, cex = c(0.8, 0.8), col = c(&quot;black&quot;,
 <p>Generally speaking, the 1st principal component captures the maximum amount of variance from the features in the original data. Here the amount of variance of the data captured by PC1 is 32.4 %. The variables/features connected to the PC1 dimension are CtryBomb, ArmSale and TerAtt which point their arrows in a close cluster and in a slight angle horizontally to the right. So from this we can deduce that these variables have some correlation among each other. FSI and GNI are pointing to oppisite directions and thus are negatively correlated. The FSI-GNI -arrowline is in a slight angle. It is more aligned with the PC1 thatn PC2.</p>
 <p><strong>Intepretation of PC2</strong></p>
 <p>The 2nd principal component PC2 is orthogonal to the first and it captures the maximum amount of variability/variance left. Here that amount is 27.2 % and variables in the closest relationship to this principal component are RefOrig and perP. So the stability of a country is connected to the amount of refugees in that country.</p>
+<p><strong>Further plotting and analysis of the correlations and their variables that the above plotting and analysis revealed as interesting</strong></p>
 <!-- #### **3.2 The structure and the summary of the subsetted data** -->
 <!-- #### **3.3 The visual overview of the data** -->
 </div>

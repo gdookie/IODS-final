@@ -59,7 +59,7 @@ It's a good idea to introduce the variables of the ref dataset before moving fur
     * This data is from Fund for Peace's yearly published  Fragile States -dataset
 * TerAtt = How many islamist terror attacks has there been in the country between 2015-2017
 * CtryBomb = Hown many countries the country has been bombing between 2015-2016
-* ArmsSale = The amount of a country's arms exports (2015)
+* ArmSale = The amount of a country's arms exports (2015)
     * This data is from SIPRI's MILEX dataset
 * RefOrig = The amount of refugees originating from a country
 * GNI = Gross National Income per Capita
@@ -93,6 +93,7 @@ Below is the structure of the human dataset. The following characteristics of th
 
 
 ```{r, echo=TRUE}
+refBombC <- refBomb
 refBomb<- refBomb[-1]
 dim(refBomb)
 str(refBomb)
@@ -282,8 +283,12 @@ The 2nd principal component PC2 is orthogonal to the first and it captures the m
 
 
 
+**Further plotting and analysis of the correlations and their variables that the above plotting and analysis revealed as interesting**
+
 
 ```{r, echo=FALSE, message=FALSE}
+
+  
 
 ```
 
