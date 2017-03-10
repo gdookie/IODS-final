@@ -136,6 +136,8 @@ true
 <div id="we-live-in-a-turbulent-world-today.-one-current-socially-destabilizing-and-publically-debated-phenomena-has-been-the-flow-of-refugees-and-asylum-seekers-from-middle-east-to-europe.-in-this-iods-final-assignment-my-aim-is-to-explore-the-possible-relations-among-variables-that-are-in-my-view-connected-to-the-ongoing-so-called-refugee-crisis.-ill-be-focusing-on-countries-that-are-bombing-the-countries-where-the-major-flow-of-refugees-originate-from.-here-are-some-questions-that-interest-me.-how-many-refugees-do-the-bombing-countries-have-accept-inside-their-borders-does-taking-part-in-foreign-wars-increase-the-risk-of-terror-attacks-how-are-these-warring-countries-connected-to-the-arms-trade-how-succesful-economically-and-socially-are-these-countries-my-hypothesis-is-at-this-point-still-vague.-it-could-be-put-bluntly-though-rich-countries-that-are-main-players-in-the-arms-business-are-bombing-poor-countries-and-by-doing-so-are-increasing-refugee-flows-across-their-borders-and-the-risk-of-terrorist-attacks.-nevertheless-this-would-be-likely-oversimplifying-the-reality." class="section level5">
 <h5>We live in a turbulent world today. One current socially destabilizing and publically debated phenomena has been the flow of refugees and asylum seekers from Middle East to Europe. In this IODS final assignment my aim is to explore the possible relations among variables that are in my view connected to the ongoing so called “refugee crisis”. I’ll be focusing on countries that are bombing the countries where the major flow of refugees originate from. Here are some questions that interest me. How many refugees do the “bombing” countries have / accept inside their borders? Does taking part in foreign wars increase the risk of terror attacks? How are these warring countries connected to the arms trade? How succesful economically and socially are these countries? My hypothesis is at this point still vague. It could be put bluntly though: “Rich countries that are main players in the arms business are bombing poor countries and by doing so are increasing refugee flows across their borders and the risk of terrorist attacks.” Nevertheless, this would be likely oversimplifying the reality.</h5>
 <p>In the following data analysis I’m going to perform Principal Component Analysis (PCA) on the ref dataset. Before the actual analysis I’ll go through some preliminary explorations of the data.</p>
+<p>#### Data wrangling</p>
+<p>##### Variables</p>
 <p>It’s a good idea to introduce the variables of the ref dataset before moving further.</p>
 <ul>
 <li>Country</li>
@@ -156,9 +158,13 @@ true
 </ul></li>
 <li>refPer - The amount of refugees in the asylum country
 <ul>
-<li>This variable was produced/mutated by me (by multiplying the amount of refugees / asylum seekers in a country of asylum and dividing it with the population of that country)</li>
+<li>This variable was produced/mutated by me (by multiplying the amount of refugees / asylum seekers in a country of asylum by hundred and then dividing it with the population of that country)</li>
 </ul></li>
 </ul>
+</div>
+<div id="methods" class="section level5">
+<h5>Methods</h5>
+<p>The data was selected from multiple sources as can seen above. My aim was to bring together data related to the broader so called refugee crisis -phenoma, but that hasn’t necessary been so often brought together. I ventured to also add some variables that in my view are actants in this larger phenomena. I had to perform many different data wrangling operations to combine all the data into one dataset in a refined form. Here are some of the methods I used: importing, selecting, mutating, deleting or completing data rows with blank (e.g. NA) values, changing the datatype of variables, combining data.</p>
 <p>Here is the link to my data wrangling file.</p>
 <ul>
 <li><a href="https://github.com/gdookie/IODS-final/blob/master/data/create_ref.R">The datawrangling file</a></li>

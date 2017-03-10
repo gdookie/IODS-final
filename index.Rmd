@@ -47,6 +47,10 @@ refBomb<- read.csv ("data/refBomb.csv", header=TRUE, sep=",", stringsAsFactors =
 
 
  In the following data analysis I’m going to  perform Principal Component Analysis (PCA) on the ref dataset. Before the actual analysis I'll go through some preliminary explorations of the data.
+ 
+ #### Data wrangling
+ 
+ ##### Variables
 
 It's a good idea to introduce the variables of the ref dataset before moving further.
 
@@ -62,6 +66,11 @@ It's a good idea to introduce the variables of the ref dataset before moving fur
      * Gross National Income data was provided by World Bank
 * refPer - The amount of refugees in the asylum country
     * This variable was produced/mutated by me (by  multiplying the amount of refugees / asylum seekers in a country of asylum by hundred and  then dividing it with the population of that country)
+ 
+##### Methods
+The data was selected from multiple sources as can seen above. My aim was to bring together data related to the broader so called refugee crisis -phenoma, but that hasn't necessary been so often brought together. I ventured to also add some variables that in my view are actants in this larger phenomena. I had to perform many different data wrangling operations to combine all the data into one dataset in a refined form. Here are some of the methods I used: importing, selecting, mutating, deleting or completing data rows with blank (e.g. NA) values, changing the datatype of variables, combining data.
+
+    
 
 Here is the link to my data wrangling file.
 
