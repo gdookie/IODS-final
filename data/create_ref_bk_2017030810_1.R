@@ -1,9 +1,3 @@
-### Author: Gyan Dookie
-### Here I'll create a dataset by importing and combining multiple datasets
-### The aim of the dataset is include variables connected, in a broader view, to the refugee crisis
-
-### Installing and loading the packages and libraries I'll need
-
 #install.packages("readr")
 library(dplyr)
 library(readr)
@@ -48,22 +42,44 @@ gni <- arrange(gni, desc(GNI))
 head(gni, 25)
 tail(gni, 30)
 
+# hd <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human_development.csv", stringsAsFactors = F)
+# names(hd)
+# 
+# hdGNI <- select(hd, Country, GNI.per.Capita.Rank.Minus.HDI.Rank)
 
+# names(hdGNI) = c("Country", "GNI")
+# hdGNI
 
 ### 3. GET THE ARMS EXPORTS PER COUNTRY
 ### Importing data
 ### MILEX (Military export) dataset by SIPRI
-arms_ex <- read_csv("TIV-Exp-50-2016.csv", skip=10, col_names=TRUE)
-names(arms_ex)
-str(arms_ex)
-arms_ex <- select(arms_ex, one_of("Supplier", "2016"))
+# arms_ex <- read_csv("TIV-Exp-50-2016.csv", skip=10, col_names=TRUE)
+# names(arms_ex)
+# str(arms_ex)
+# arms_ex <- select(arms_ex, one_of("Supplier", "2016"))
+# 
+# names(arms_ex) <- c("Country", "ArM2016")
+# 
+# names(arms_ex)
+# arms_ex
 
-names(arms_ex) <- c("Country", "ArM2016")
-
-names(arms_ex)
-arms_ex
-
-
+arms_ex2 <- read_excel("SIPRI-2015.xlsx", sheet=6, skip=4, col_names=TRUE)
+names(arms_ex2)
+arms_ex2 <- select(arms_ex2, one_of("Country", "2015"))
+names(arms_ex2)
+str(arms_ex2)
+dim(arms_ex2)
+glimpse(arms_ex2)
+#Remove all rows with missing values
+data.frame(arms_ex2, comp = complete.cases(arms_ex2))
+arms_ex2 <- filter(arms_ex2, complete.cases(arms_ex2) != FALSE)
+names(arms_ex2) = c("Country", "ArM2015")
+names(arms_ex2)
+arms_ex2 <- arrange(arms_ex2, desc(ArM2015))
+# arms_ex2[arms_ex2$Country == "USA"] <- "United States"
+# filter(arms_ex2, Country== "United States")
+# arms_ex2 <- filter(arms_ex2, !is.na(ArM2015))
+# dim(arms_ex2)
 
 ### 4. & 5. TERRORIST ATTACKS PER COUNTRY & COUNTRIES BOMBED 2015-2016
 ### Importing data
@@ -144,33 +160,28 @@ ref_asylum_test
 ### JOIN DATAFRAMES
 glimpse(ref_asylum)
 
-### Here I tested the merge() function way of combining data
 total <- merge(frgstat,pop_totals2015,by="Country")
 print(total)
 
 
+# refBomb0 <-inner_join(frgstat, arms_ex, by = "Country")
+# refBomb0[is.na(refBomb0)] <- 0
+# refBomb0
 arms_ex
-
-### Joining the datasets that were created above
-### I'm using left_join, which includes also rows with NA and empty values, instead of left_join
-### The reason for this is that I also want to keep rows with empty values 
+#refBomb <- inner_join(frgstat, pop_totals2015, by = "Country")
+#refBomb <- inner_join(frgstat, arms_ex, by = "Country")
 
 refBomb <- left_join(frgstat, arms_ex, by = "Country") %>% left_join(pop_totals2015, by = "Country") %>% left_join(teratt, by = "Country")  %>% left_join(ref_asylum, by = "Country")  %>% left_join(ref_orig, by = "Country") %>% left_join(gni, by = "Country") 
 
-### Here I create a new variable that shows the relation between the amounts of population and refugees from two existing ones with the mutate() function
+#refBomb <- inner_join(refBomb, pop_totals2015, by = "Country")
 refBomb <- mutate(refBomb,  refPer = round(RefAsyl * 100 /Pop2015, digits=2))
-## Exploring the structure of the mutated refBomb dataframe
 names(refBomb)
 dim(refBomb)
 summary(refBomb$refPer)
 refBomb
-
-### Changing the names of the variables to more suitable ones
 refBomb <- select(refBomb, c(Country, Total, TerAtt, CtryBomb, ArM2016, RefOrig,GNI, refPer))
 names(refBomb) = c("Country", "FSI", "TerAtt", "CtryBomb", "ArmSale","RefOrig", "GNI", "refPer")
 names(refBomb)
-
-## Here I replace the refBomb dataframe's NA's with zeros (it's plausible to replace these variables eNA values with zeros, e.g. the terrorist attacks csv-file had fewer countries than other datasets, only countries that had islamist terrorist attacks were listed)
 refBomb$TerAtt[is.na(refBomb$TerAtt)] <- 0
 refBomb$TerAtt
 refBomb$CtryBomb[is.na(refBomb$CtryBomb)] <- 0
@@ -178,14 +189,11 @@ refBomb$CtryBomb
 refBomb$ArmSale[is.na(refBomb$ArmSale)] <- 0
 refBomb$ArmSale
 refBomb$Country
-
-### Removing the rows left with empty values
 data.frame(refBomb, comp = complete.cases(refBomb))
 refBomb<- filter(refBomb, complete.cases(refBomb) != FALSE)
 dim(refBomb)
 refBomb$Country
 
-### Changing all the variables (except the Country variable) to numeric
 refBomb <- rbind(refBomb, c("Syria", as.numeric(1110), as.numeric(0), as.numeric(1), as.numeric(0),as.numeric(3869626), as.numeric(5120), as.numeric(13,4))) 
 
 refBomb$Country
@@ -202,6 +210,4 @@ refBomb$refPer <- as.numeric(refBomb$refPer)
 str(refBomb)
 refBomb
 
-
-### Writing the refBomb dataset to a csv-file for the next analysis phase
 write.csv(refBomb, "/Users/gyandookie/IODS-final/data/refBomb.csv")
